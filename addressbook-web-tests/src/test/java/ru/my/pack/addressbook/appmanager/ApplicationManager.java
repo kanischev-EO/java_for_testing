@@ -1,6 +1,5 @@
 package ru.my.pack.addressbook.appmanager;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -26,13 +25,8 @@ public class ApplicationManager {
     sessionHelper.login("admin", "secret");
   }
 
-
-  public void logout() {
-    wd.findElement(By.linkText("Logout")).click();
-  }
-
   public void stop() {
-    logout();
+    sessionHelper.logout();
     wd.quit();
   }
 
