@@ -10,7 +10,7 @@ public class ContactModificationTests extends TestBase {
     app.getContactHelper().updateContact();
     app.getContactHelper().initContactCreation(
             new ContactData("Антон", "Тужилов",
-                    "Другая Улица", "89859278614", "антон@mail.ru"));
+                    "Другая Улица", "89859278614", "антон@mail.ru", null), false);
     app.getGroupHelper().submitContactModification();
 
   }

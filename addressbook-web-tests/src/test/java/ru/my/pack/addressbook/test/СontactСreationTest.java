@@ -11,9 +11,9 @@ public class СontactСreationTest extends TestBase {
     app.getContactHelper().gotoAddContactPage();
     app.getContactHelper().initContactCreation(
             new ContactData("Anton", "Tuzhilov",
-                    "Москва улица Новая", "87959999999", "anton@mail.ru"));
+                    "Москва улица Новая", "87959999999", "anton@mail.ru", "test"), true);
     app.getContactHelper().submitAddContact();
-    app.getContactHelper().returnHomePage();
+    app.getNavigationHelper().gotoHomePage();
   }
 
 
