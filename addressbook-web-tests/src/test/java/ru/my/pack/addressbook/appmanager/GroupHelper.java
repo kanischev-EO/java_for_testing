@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import ru.my.pack.addressbook.model.GroupData;
 
-public class GroupHelper extends HelperBase  {
+public class GroupHelper extends HelperBase {
 
 
   public GroupHelper(WebDriver wd) {
@@ -26,7 +26,6 @@ public class GroupHelper extends HelperBase  {
   }
 
 
-
   public void deleteSelectGroups() {
     click(By.name("delete"));
   }
@@ -41,5 +40,20 @@ public class GroupHelper extends HelperBase  {
 
   public void submitContactModification() {
     click(By.xpath("//input[22]"));
+  }
+
+  public void createGroup(GroupData group) {
+    initGroupCreation();
+    fillGroupForm(group);
+    submitGroupCreation();
+    returnToGroupPage();
+  }
+
+  public void returnToGroupPage() {
+    wd.findElement(By.linkText("groups")).click();
+  }
+
+  public boolean isThereAGroup() {
+    return isElementPresent(By.name("selected[]"));
   }
 }
