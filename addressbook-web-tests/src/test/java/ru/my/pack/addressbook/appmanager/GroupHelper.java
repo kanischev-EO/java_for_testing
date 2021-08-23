@@ -2,7 +2,11 @@ package ru.my.pack.addressbook.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import ru.my.pack.addressbook.model.GroupData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GroupHelper extends HelperBase {
 
@@ -57,7 +61,15 @@ public class GroupHelper extends HelperBase {
     return isElementPresent(By.name("selected[]"));
   }
 
-  public int getGroupCount() {
-    return wd.findElements(By.name("selected[]")).size();
+
+  public List<GroupData> getGroupList() {
+    List<GroupData> groups =  new ArrayList<>();
+    List<WebElement> elements = wd.findElements(By.cssSelector("span.group"));
+    for (WebElement wb : elements) {
+      String name = wb.getText();
+      int id = Integer.parseInt(wb.findElement(By.tagName("input")).getAttribute("value"));
+      groups.add(new GroupData(id, name, null, null));
+    }
+    return groups;
   }
 }
