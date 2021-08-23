@@ -22,16 +22,16 @@ public class ContactModificationTests extends TestBase {
               true);
     }
     List<ContactData> before = app.getContactHelper().getContactList();
-    app.getContactHelper().selectContact(before.size() -1 );
+    app.getContactHelper().selectContact(0);
     app.getContactHelper().updateContact();
-    ContactData contactData = new ContactData(before.get(before.size()-1).getId(),
-            "Иван12", "Ковалев12" );
+    ContactData contactData = new ContactData(before.get(0).getId(),
+            "Антошка123", "Тужилов123" );
     app.getContactHelper().initContactCreation(contactData, false);
     app.getGroupHelper().submitContactModification();
     app.getContactHelper().gotoHomePage();
     List<ContactData> after = app.getContactHelper().getContactList();
     Assert.assertEquals(after.size(), before.size());
-    before.remove(before.size() - 1);
+    before.remove(0);
     before.add(contactData);
     Comparator<? super ContactData> byId = (g1, g2) -> Integer.compare(g1.getId(), g2.getId());
     before.sort(byId);
