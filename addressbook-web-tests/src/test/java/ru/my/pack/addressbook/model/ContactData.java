@@ -3,34 +3,43 @@ package ru.my.pack.addressbook.model;
 import java.util.Objects;
 
 public class ContactData {
-  private final String firstName;
-  private final String lastName;
-  private final String address;
-  private final String phoneNumber;
-  private final String email;
+  private String firstName;
+  private String lastName;
+  private String address;
+  private String phoneNumber;
+  private String email;
   private String group;
-  private int id;
+  private int id = Integer.MAX_VALUE;
 
-  public ContactData(String firstName, String lastName, String address, String phoneNumber, String email, String group) {
+  public ContactData withFirstName(String firstName) {
     this.firstName = firstName;
+    return this;
+  }
+
+  public ContactData withLastName(String lastName) {
     this.lastName = lastName;
+    return this;
+  }
+
+  public ContactData withAddress(String address) {
     this.address = address;
+    return this;
+  }
+
+  public ContactData withPhoneNumber(String phoneNumber) {
     this.phoneNumber = phoneNumber;
+    return this;
+  }
+
+  public ContactData withEmail(String email) {
     this.email = email;
+    return this;
+  }
+
+  public ContactData withGroup(String group) {
     this.group = group;
-    this.id = 0;
+    return this;
   }
-
-  public ContactData( int id, String firstName, String lastName) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.address = null;
-    this.phoneNumber = null;
-    this.email = null;
-    this.group = null;
-    this.id = id;
-  }
-
   public String getFirstName() {
     return firstName;
   }
@@ -68,8 +77,9 @@ public class ContactData {
             '}';
   }
 
-  public void setId(int id){
+  public ContactData withId(int id){
     this.id = id;
+    return this;
   }
 
   @Override

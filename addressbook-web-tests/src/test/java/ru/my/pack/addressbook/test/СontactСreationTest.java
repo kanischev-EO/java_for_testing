@@ -15,12 +15,12 @@ public class СontactСreationTest extends TestBase {
     app.contact().gotoHomePage();
     List<ContactData> before = app.contact().list();
     app.contact().gotoAddContactPage();
-    ContactData contactData = new ContactData("on567",
-            "T1234567",
-            "Мослица Новая1123",
-            "8795999555912",
-            "anton@21.ru",
-            "new_test2");
+    ContactData contactData = new ContactData()
+            .withFirstName("Юлий")
+            .withLastName("Цезарь")
+            .withAddress("Мослица Новая1123")
+            .withEmail("uliy@21.ru")
+            .withGroup("test2");
     app.contact().create(contactData,
             true);
     List<ContactData> after = app.contact().list();
@@ -28,7 +28,7 @@ public class СontactСreationTest extends TestBase {
     before.add(contactData);
     Comparator<? super ContactData> byId = (g1, g2) -> Integer.compare(g1.getId(), g2.getId());
     after.sort(byId);
-    before.get(before.size()-1).setId(after.get(after.size()-1).getId());
+    before.get(before.size()-1).withId(after.get(after.size()-1).getId());
     before.sort(byId);
     Assert.assertEquals(before, after);
   }
