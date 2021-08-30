@@ -1,19 +1,20 @@
 package ru.my.pack.addressbook.test;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.my.pack.addressbook.model.ContactData;
-import ru.my.pack.addressbook.model.GroupData;
 
 import java.util.Comparator;
 import java.util.List;
 
 public class ContactModificationTests extends TestBase {
-  @Test
-  public void testContactModification() {
-    if (!app.getContactHelper().isThereAContact()) {
-      app.getContactHelper().gotoAddContactPage();
-      app.getContactHelper().createContact(new ContactData("Anton",
+  @BeforeMethod
+  public void ensurePreconditions() {
+    app.contact().gotoHomePage();
+    if (app.contact().list().size() ==0 ) {
+      app.contact().gotoAddContactPage();
+      app.contact().create(new ContactData("Anton",
                       "Tuzhilov",
                       "Москва улица Новая",
                       "87959999999",
@@ -21,15 +22,16 @@ public class ContactModificationTests extends TestBase {
                       "new_test2"),
               true);
     }
-    List<ContactData> before = app.getContactHelper().getContactList();
-    app.getContactHelper().selectContact(0);
-    app.getContactHelper().updateContact();
+  }
+
+  @Test
+  public void testContactModification() {
+
+    List<ContactData> before = app.contact().list();
     ContactData contactData = new ContactData(before.get(0).getId(),
-            "Антошка123", "Тужилов123" );
-    app.getContactHelper().initContactCreation(contactData, false);
-    app.getGroupHelper().submitContactModification();
-    app.getContactHelper().gotoHomePage();
-    List<ContactData> after = app.getContactHelper().getContactList();
+            "Антошка123", "Тужилов123");
+    app.contact().modify(contactData);
+    List<ContactData> after = app.contact().list();
     Assert.assertEquals(after.size(), before.size());
     before.remove(0);
     before.add(contactData);
@@ -40,4 +42,6 @@ public class ContactModificationTests extends TestBase {
 
 
   }
+
+
 }

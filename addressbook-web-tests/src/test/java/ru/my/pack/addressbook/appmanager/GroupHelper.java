@@ -46,7 +46,15 @@ public class GroupHelper extends HelperBase {
     click(By.xpath("//input[22]"));
   }
 
-  public void createGroup(GroupData group) {
+  public void modify(int index, GroupData groupData) {
+    selectGroup(index);
+    initGroupModification();
+    fillGroupForm(groupData);
+    submitGroupModification();
+    returnToGroupPage();
+  }
+
+  public void create(GroupData group) {
     initGroupCreation();
     fillGroupForm(group);
     submitGroupCreation();
@@ -57,13 +65,23 @@ public class GroupHelper extends HelperBase {
     wd.findElement(By.linkText("groups")).click();
   }
 
+  public void submitGroupModification() {
+    click(By.name("update"));
+  }
+
   public boolean isThereAGroup() {
     return isElementPresent(By.name("selected[]"));
   }
 
+  public void delete(int index) {
+    selectGroup(index);
+    deleteSelectGroups();
+    returnToGroupPage();
+  }
 
-  public List<GroupData> getGroupList() {
-    List<GroupData> groups =  new ArrayList<>();
+
+  public List<GroupData> list() {
+    List<GroupData> groups = new ArrayList<>();
     List<WebElement> elements = wd.findElements(By.cssSelector("span.group"));
     for (WebElement wb : elements) {
       String name = wb.getText();
