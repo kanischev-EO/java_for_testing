@@ -3,34 +3,35 @@ package ru.my.pack.addressbook.test;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.my.pack.addressbook.model.ContactData;
+import ru.my.pack.addressbook.model.Contacts;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.Set;
+
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.*;
 
 public class СontactСreationTest extends TestBase {
 
 
   @Test
   public void testContactCreation() throws Exception {
-    app.contact().gotoHomePage();
-    List<ContactData> before = app.contact().list();
-    app.contact().gotoAddContactPage();
-    ContactData contactData = new ContactData()
-            .withFirstName("Юлий")
-            .withLastName("Цезарь")
+    app.contact().contactPage();
+    Contacts before = app.contact().all();
+    app.contact().gotoAdd();
+    ContactData contact = new ContactData()
+            .withFirstName("Юлий3")
+            .withLastName("Цезарь3")
             .withAddress("Мослица Новая1123")
             .withEmail("uliy@21.ru")
-            .withGroup("test2");
-    app.contact().create(contactData,
+            .withGroup("new_test2");
+    app.contact().create(contact,
             true);
-    List<ContactData> after = app.contact().list();
-    Assert.assertEquals(after.size(), before.size() + 1);
-    before.add(contactData);
-    Comparator<? super ContactData> byId = (g1, g2) -> Integer.compare(g1.getId(), g2.getId());
-    after.sort(byId);
-    before.get(before.size()-1).withId(after.get(after.size()-1).getId());
-    before.sort(byId);
-    Assert.assertEquals(before, after);
+    Contacts after = app.contact().all();
+    assertThat(after.size(), equalTo(before.size() + 1));
+    assertThat(after, equalTo(before.withAdded(contact.withId(after.stream().mapToInt(c ->c.getId()).max().getAsInt()))));
+    ;
+
+
   }
 
 
