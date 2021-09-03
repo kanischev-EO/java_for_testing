@@ -6,9 +6,8 @@ import org.openqa.selenium.WebElement;
 import ru.my.pack.addressbook.model.GroupData;
 import ru.my.pack.addressbook.model.Groups;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 
 public class GroupHelper extends HelperBase {
   private Groups groupsCache = null;
@@ -42,6 +41,9 @@ public class GroupHelper extends HelperBase {
 
   public void initGroupModification() {
     click(By.name("edit"));
+  }
+  public int count() {
+    return wd.findElements(By.name("selected[]")).size();
   }
 
   public void modify( GroupData groupData) {
