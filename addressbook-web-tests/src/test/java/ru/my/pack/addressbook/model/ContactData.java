@@ -8,11 +8,15 @@ public class ContactData {
   private String address;
   private String phoneNumber;
   private String email;
+  private String email2;
+  private String email3;
+  private String allEmails;
   private String group;
   private String workPhone;
   private String homePhone;
   private String mobilePhone;
   private String allPhones;
+  private int id = Integer.MAX_VALUE;
 
   public ContactData withWorkPhone(String phoneNumber) {
     this.workPhone = phoneNumber;
@@ -39,7 +43,13 @@ public class ContactData {
     return mobilePhone;
   }
 
-  private int id = Integer.MAX_VALUE;
+  public String getEmail2() {
+    return email2;
+  }
+
+  public String getEmail3() {
+    return email3;
+  }
 
   public ContactData withFirstName(String firstName) {
     this.firstName = firstName;
@@ -111,6 +121,15 @@ public class ContactData {
     return Objects.hash(firstName, lastName, id);
   }
 
+  public String getAllEmails() {
+    return allEmails;
+  }
+
+  public ContactData withAllEmails(String allEmails) {
+    this.allEmails = allEmails;
+    return this;
+  }
+
   @Override
   public String toString() {
     return "ContactData{" +
@@ -131,6 +150,15 @@ public class ContactData {
 
   public ContactData withAllPhones(String allPhones) {
     this.allPhones = allPhones;
+    return this;
+  }
+
+  public ContactData withEmail2(String email2) {
+    this.email2 = email2;
+    return this;
+  }
+  public ContactData withEmail3(String email3) {
+    this.email3 = email3;
     return this;
   }
 }
