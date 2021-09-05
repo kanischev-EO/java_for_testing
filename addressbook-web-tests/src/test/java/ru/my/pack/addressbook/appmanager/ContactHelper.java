@@ -31,6 +31,9 @@ public class ContactHelper extends HelperBase {
     type(By.name("address"), contactData.getAddress());
     type(By.name("mobile"), contactData.getPhoneNumber());
     type(By.name("email"), contactData.getEmail());
+    type(By.name("home"), contactData.getHomePhone());
+    type(By.name("mobile"), contactData.getMobilePhone());
+    type(By.name("work"), contactData.getWorkPhone());
 
     if (creation) {
       new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
@@ -59,8 +62,17 @@ public class ContactHelper extends HelperBase {
     wd.switchTo().alert().accept();
   }
 
-  public void updateContact(int id) {
-    click(By.xpath("//input[@id=" + id + "]//ancestor::tr//a/img[@title='Edit']"));
+  public void initContactModificationByID(int id) {
+//    WebElement checkbox = wd.findElement(By.cssSelector(String.format("input[value='%s']", id)));
+//    WebElement row = checkbox.findElement(By.xpath("./../.."));
+//    List<WebElement> cells = row.findElements(By.tagName("td"));
+//    cells.get(7).findElement(By.tagName("a")).click();
+
+//    wd.findElement(By.xpath(String.format("//input[@value='$s']/../../td[8]/a", id))).click();
+//    wd.findElement(By.xpath(String.format("//tr[.//input[@value='$s']]/td[8]/a", id))).click();
+    wd.findElement(By.cssSelector(String.format("a[href = 'edit.php?id=%s'", id))).click();
+//    click(By.xpath(String.format("//input[@id='%s']//ancestor::tr//a/img[@title='Edit']", id)));
+
   }
 
   public void create(ContactData contact, boolean creation) {
@@ -82,7 +94,7 @@ public class ContactHelper extends HelperBase {
   }
   public void modify(ContactData contactData) {
     selectContactById(contactData.getId());
-    updateContact(contactData.getId());
+    initContactModificationByID(contactData.getId());
     initContactCreation(contactData, false);
     submitModifyContact();
     contactsCache = null;
@@ -96,6 +108,22 @@ public class ContactHelper extends HelperBase {
     contactsCache = null;
     contactPage();
   }
+  public ContactData infoFromEditForm(ContactData contact){
+    initContactModificationByID(contact.getId());
+    String firstName = wd.findElement(By.name("firstname")).getAttribute("value");
+    String lastName = wd.findElement(By.name("lastname")).getAttribute("value");
+    String home = wd.findElement(By.name("home")).getAttribute("value");
+    String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
+    String work = wd.findElement(By.name("work")).getAttribute("value");
+    wd.navigate().back();
+    return new ContactData()
+            .withId(contact.getId())
+            .withFirstName(firstName)
+            .withLastName(lastName)
+            .withHomePhone(home)
+            .withMobilePhone(mobile)
+            .withWorkPhone(work);
+  }
   private Contacts contactsCache = null;
 
   public Contacts all() {
@@ -105,10 +133,20 @@ public class ContactHelper extends HelperBase {
     contactsCache = new Contacts();
     List<WebElement> elements = wd.findElements(By.name("entry"));
     for (WebElement element : elements) {
-      String firstName = element.findElement(By.xpath("td[3]")).getText();
-      String lastName = element.findElement(By.xpath("td[2]")).getText();
+      List<WebElement> cells = element.findElements(By.tagName("td"));
+//      String firstName = element.findElement(By.xpath("td[3]")).getText();
+//      String lastName = element.findElement(By.xpath("td[2]")).getText();
+//      String allPhones = element.findElement(By.xpath("td[6]")).getText();
+      String firstName = cells.get(2).getText();
+      String lastName = cells.get(1).getText();
+      String allPhones = cells.get(5).getText();
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
-      contactsCache.add(new ContactData().withFirstName(firstName).withLastName(lastName).withId(id));
+      contactsCache.add(new ContactData()
+              .withFirstName(firstName)
+              .withLastName(lastName)
+              .withId(id)
+              .withAllPhones(allPhones));
+
     }
     return new Contacts(contactsCache);
   }

@@ -20,8 +20,7 @@ public class ContactDeletionTests extends TestBase {
                       .withLastName("Tuzhilov")
                       .withAddress("Москва улица Новая")
                       .withEmail("anton@mail.ru")
-                      .withGroup("new_test2")
-                      .withPhoneNumber("87959999999"),
+                      .withGroup("new_test2"),
               true);
     }
   }

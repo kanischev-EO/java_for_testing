@@ -1,19 +1,16 @@
 package ru.my.pack.addressbook.test;
 
-import org.checkerframework.checker.signature.qual.CanonicalNameOrEmpty;
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.MatcherAssert;
-import org.testng.Assert;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.my.pack.addressbook.model.ContactData;
 import ru.my.pack.addressbook.model.Contacts;
 
-import java.util.Set;
+
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
-import static org.testng.Assert.*;
+
 
 public class ContactModificationTests extends TestBase {
   @BeforeMethod
@@ -26,8 +23,7 @@ public class ContactModificationTests extends TestBase {
                       .withLastName("Tuzhilov")
                       .withAddress("Москва улица Новая")
                       .withEmail("anton@mail.ru")
-                      .withGroup("new_test2")
-                      .withPhoneNumber("87959999999"),
+                      .withGroup("new_test2"),
               true);
     }
   }
