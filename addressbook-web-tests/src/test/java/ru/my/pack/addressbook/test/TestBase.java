@@ -1,9 +1,7 @@
 package ru.my.pack.addressbook.test;
 
 import org.openqa.selenium.remote.BrowserType;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import ru.my.pack.addressbook.appmanager.ApplicationManager;
 
