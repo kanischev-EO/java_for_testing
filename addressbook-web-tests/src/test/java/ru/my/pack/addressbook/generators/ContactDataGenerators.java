@@ -3,6 +3,9 @@ package ru.my.pack.addressbook.generators;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.thoughtworks.xstream.XStream;
 import ru.my.pack.addressbook.model.ContactData;
 
 import java.io.File;
@@ -38,18 +41,29 @@ public class ContactDataGenerators {
       saveCsv(contacts, new File(file));
     } else if (format.equals("xml")) {
       saveXml(contacts, new File(file));
-    } else if (format.equals("xml")) {
+    } else if (format.equals("json")) {
       saveJson(contacts, new File(file));
     } else {
       System.out.println("Unrecognized format " + format);
     }
   }
 
-  private void saveJson(List<ContactData> contacts, File file) {
+  private void saveJson(List<ContactData> contacts, File file) throws IOException {
+    Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
+    String json = gson.toJson(contacts);
+    Writer writer = new FileWriter(file);
+    writer.write(json);
+    writer.close();
 
   }
 
-  private void saveXml(List<ContactData> contacts, File file) {
+  private void saveXml(List<ContactData> contacts, File file) throws IOException {
+    XStream xStream = new XStream();
+    xStream.processAnnotations(ContactData.class);
+    String xml = xStream.toXML(contacts);
+    Writer writer = new FileWriter(file);
+    writer.write(xml);
+    writer.close();
   }
 
   private List<ContactData> generateContact(int count) {
@@ -59,9 +73,9 @@ public class ContactDataGenerators {
               .withLastName(String.format("test_last_name %s", i))
               .withFirstName(String.format("test_first_name %s", i))
               .withAddress(String.format("test_address %s", i))
-              .withEmail(String.format("test@email%s. ru", i))
-              .withEmail2(String.format("test@2email%s. ru", i))
-              .withEmail3(String.format("test@3email%s. ru", i))
+              .withEmail(String.format("test@email%s.ru", i))
+              .withEmail2(String.format("test@2email%s.ru", i))
+              .withEmail3(String.format("test@3email%s.ru", i))
               .withGroup("test1")
               .withWorkPhone(String.format("7(985)-123-%s", i))
               .withMobilePhone(String.format("7(985)-123-%s", i))
