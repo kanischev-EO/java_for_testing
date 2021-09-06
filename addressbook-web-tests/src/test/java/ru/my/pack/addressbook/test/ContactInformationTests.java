@@ -43,7 +43,7 @@ public class ContactInformationTests extends TestBase {
 
 
   }
-  
+
   private String merge(ContactData contact, String emailOrPhone) {
     List<String> list = null;
     if(emailOrPhone.equals("email")){
