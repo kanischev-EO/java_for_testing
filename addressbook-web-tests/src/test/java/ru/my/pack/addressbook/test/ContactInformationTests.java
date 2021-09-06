@@ -61,7 +61,7 @@ public class ContactInformationTests extends TestBase {
   public static String cleanedPhones(String phone) {
     return phone.replaceAll("\\s", "").replaceAll("[-()]", "");
   }
-  public static String cleanedEmails(String phone) {
-    return phone.replaceAll("\\s", "");
+  public static String cleanedEmails(String email) {
+    return email.replaceAll("\\s", "");
   }
 }
