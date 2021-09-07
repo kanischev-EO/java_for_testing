@@ -25,32 +25,34 @@ public class СontactСreationTest extends TestBase {
 
   @DataProvider
   public Iterator<Object[]> validContactFromJson() throws IOException{
-    BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/contact.json"));
-    String json ="";
-    String line = reader.readLine();
-    while (line != null){
-      json += line;
-      line = reader.readLine();
+    try(BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/contact.json"))) {
+      String json ="";
+      String line = reader.readLine();
+      while (line != null){
+        json += line;
+        line = reader.readLine();
+      }
+      Gson gson = new Gson();
+      List<ContactData> contacts = gson.fromJson(json,new TypeToken<List<ContactData>>(){}.getType());//List<GroupData>.class
+      return contacts.stream().map((c) -> new Object[]{c}).collect(Collectors.toList()).iterator();
     }
-    Gson gson = new Gson();
-    List<ContactData> contacts = gson.fromJson(json,new TypeToken<List<ContactData>>(){}.getType());//List<GroupData>.class
-    return contacts.stream().map((c) -> new Object[]{c}).collect(Collectors.toList()).iterator();
   }
 
   @DataProvider
   public Iterator<Object[]> validContactFromXml() throws IOException{
-    BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/contact.xml"));
-    String xml ="";
-    String line = reader.readLine();
-    while (line != null){
-      xml += line;
-      line = reader.readLine();
+    try(BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/contact.xml"))) {
+      String xml ="";
+      String line = reader.readLine();
+      while (line != null){
+        xml += line;
+        line = reader.readLine();
+      }
+      XStream xStream = new XStream();
+      xStream.processAnnotations(ContactData.class);
+      xStream.addPermission(AnyTypePermission.ANY);
+      List<ContactData> contacts =(List<ContactData>) xStream.fromXML(xml);
+      return contacts.stream().map((c) -> new Object[]{c}).collect(Collectors.toList()).iterator();
     }
-    XStream xStream = new XStream();
-    xStream.processAnnotations(ContactData.class);
-    xStream.addPermission(AnyTypePermission.ANY);
-    List<ContactData> contacts =(List<ContactData>) xStream.fromXML(xml);
-    return contacts.stream().map((c) -> new Object[]{c}).collect(Collectors.toList()).iterator();
   }
 
 

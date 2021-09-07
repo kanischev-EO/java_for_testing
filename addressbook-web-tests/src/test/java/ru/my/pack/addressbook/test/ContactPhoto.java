@@ -2,7 +2,6 @@ package ru.my.pack.addressbook.test;
 
 import org.testng.annotations.Test;
 import ru.my.pack.addressbook.model.ContactData;
-import ru.my.pack.addressbook.model.Contacts;
 
 import java.io.File;
 

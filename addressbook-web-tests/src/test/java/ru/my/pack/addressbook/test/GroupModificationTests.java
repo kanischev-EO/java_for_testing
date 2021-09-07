@@ -9,7 +9,6 @@ import ru.my.pack.addressbook.model.Groups;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.*;
-import static org.testng.Assert.*;
 
 public class GroupModificationTests extends TestBase {
   @BeforeMethod
