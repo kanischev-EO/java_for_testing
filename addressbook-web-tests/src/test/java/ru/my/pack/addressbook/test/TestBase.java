@@ -5,12 +5,14 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import ru.my.pack.addressbook.appmanager.ApplicationManager;
 
+import java.io.IOException;
+
 public class TestBase {
 
-  protected static final ApplicationManager app = new ApplicationManager(BrowserType.CHROME);
+  protected static final ApplicationManager app = new ApplicationManager( BrowserType.FIREFOX);
 
   @BeforeSuite
-  public void setUp(){
+  public void setUp() throws IOException {
     app.init();
   }
 

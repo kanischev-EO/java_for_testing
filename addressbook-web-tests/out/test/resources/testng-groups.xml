@@ -8,10 +8,4 @@
             <class name="ru.my.pack.addressbook.test.GroupDeletionTest" />
         </classes>
     </test>
-
-    <test name="Contacts">
-        <classes>
-            <class name="ru.my.pack.addressbook.test.СontactСreationTest"/>
-        </classes>
-    </test>
 </suite>
