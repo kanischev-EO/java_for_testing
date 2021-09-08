@@ -5,6 +5,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.security.AnyTypePermission;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.my.pack.addressbook.model.GroupData;
@@ -22,6 +24,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 
 public class GroupCreationTests extends TestBase {
+
+
   @DataProvider
   public Iterator<Object[]> validGroupsFromXml() throws IOException {
     try (BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/group.xml"))) {

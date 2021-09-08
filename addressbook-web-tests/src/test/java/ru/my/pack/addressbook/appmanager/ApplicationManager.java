@@ -45,7 +45,7 @@ public class ApplicationManager {
 //      System.setProperty("webdriver.gecko.driver", "/Users/ruanaoq/Documents/GitHub/java_for_testing/addressbook-web-tests/geckodriver");
     }
 
-    wd.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
+    wd.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
     wd.get(properties.getProperty("web.baseUrl"));
     groupHelper = new GroupHelper(wd);
     navigationHelper = new NavigationHelper(wd);
