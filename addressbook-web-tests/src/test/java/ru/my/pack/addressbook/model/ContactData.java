@@ -3,39 +3,76 @@ package ru.my.pack.addressbook.model;
 import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.hibernate.annotations.Type;
 
+import javax.persistence.*;
 import java.io.File;
 import java.util.Objects;
 @XStreamAlias("contact")
+@Entity
+@Table(name = "addressbook")
 public class ContactData {
 
   @Expose
+  @Column(name = "firstname")
   private String firstName;
+
   @Expose
+  @Column(name = "lastname")
   private String lastName;
+
   @Expose
+  @Type(type = "text")
   private String address;
+
   @Expose
+  @Transient
   private String phoneNumber;
+
   @Expose
+  @Type(type = "text")
   private String email;
+
   @Expose
+  @Type(type = "text")
   private String email2;
+
   @Expose
+  @Type(type = "text")
   private String email3;
+
+  @Transient
   private String allEmails;
+
   @Expose
+  @Transient
   private String group;
+
   @Expose
+  @Column(name = "work")
+  @Type(type = "text")
   private String workPhone;
+
   @Expose
+  @Column(name = "home")
+  @Type(type = "text")
   private String homePhone;
+
   @Expose
+  @Column(name = "mobile")
+  @Type(type = "text")
   private String mobilePhone;
 
+  @Transient
   private String allPhones;
+
   @XStreamOmitField
+  @Id
+  @Column(name = "id")
   private int id = Integer.MAX_VALUE;
+
+  @Column(name = "photo")
+  @Transient
   private File photo;
 
   public File getPhoto() {
@@ -95,14 +132,29 @@ public class ContactData {
     return this;
   }
 
-  public ContactData withPhoneNumber(String phoneNumber) {
-    this.phoneNumber = phoneNumber;
-    return this;
-  }
-
   public ContactData withEmail(String email) {
     this.email = email;
     return this;
+  }
+
+  @Override
+  public String toString() {
+    return "ContactData{" +
+            "firstName='" + firstName + '\'' +
+            ", lastName='" + lastName + '\'' +
+            ", address='" + address + '\'' +
+            ", email='" + email + '\'' +
+            ", email2='" + email2 + '\'' +
+            ", email3='" + email3 + '\'' +
+            ", allEmails='" + allEmails + '\'' +
+            ", group='" + group + '\'' +
+            ", workPhone='" + workPhone + '\'' +
+            ", homePhone='" + homePhone + '\'' +
+            ", mobilePhone='" + mobilePhone + '\'' +
+            ", allPhones='" + allPhones + '\'' +
+            ", id=" + id +
+            ", photo=" + photo +
+            '}';
   }
 
   public ContactData withGroup(String group) {
@@ -121,12 +173,23 @@ public class ContactData {
     return address;
   }
 
-  public String getPhoneNumber() {
-    return phoneNumber;
-  }
+
 
   public String getEmail() {
     return email;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    ContactData that = (ContactData) o;
+    return id == that.id && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName) && Objects.equals(address, that.address) && Objects.equals(email, that.email) && Objects.equals(email2, that.email2) && Objects.equals(email3, that.email3) && Objects.equals(workPhone, that.workPhone) && Objects.equals(homePhone, that.homePhone) && Objects.equals(mobilePhone, that.mobilePhone);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(firstName, lastName, address, email, email2, email3, workPhone, homePhone, mobilePhone, id);
   }
 
   public String getGroup() {
@@ -137,19 +200,6 @@ public class ContactData {
     return id;
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    ContactData that = (ContactData) o;
-    return id == that.id && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(firstName, lastName, id);
-  }
-
   public String getAllEmails() {
     return allEmails;
   }
@@ -157,15 +207,6 @@ public class ContactData {
   public ContactData withAllEmails(String allEmails) {
     this.allEmails = allEmails;
     return this;
-  }
-
-  @Override
-  public String toString() {
-    return "ContactData{" +
-            "firstName='" + firstName + '\'' +
-            ", lastName='" + lastName + '\'' +
-            ", id=" + id +
-            '}';
   }
 
   public ContactData withId(int id){

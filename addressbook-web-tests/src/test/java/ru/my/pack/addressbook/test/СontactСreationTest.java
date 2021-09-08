@@ -59,14 +59,15 @@ public class СontactСreationTest extends TestBase {
   @Test(dataProvider = "validContactFromJson")
   public void testContactCreation(ContactData contact){
     app.contact().contactPage();
-    Contacts before = app.contact().all();
+    Contacts before = app.db().contacts();
     app.contact().gotoAdd();
     app.contact().create(contact,
             true);
     assertThat(app.contact().count(), equalTo(before.size() + 1));
-    Contacts after = app.contact().all();
-    assertThat(after, equalTo(before.withAdded(contact.withId(after.stream().mapToInt(c ->c.getId()).max().getAsInt()))));
-    ;
+    Contacts after = app.db().contacts();
+    assertThat(after, equalTo(before.withAdded(contact.withId(after.stream().mapToInt(c ->c.getId()).max().getAsInt())
+    .withFirstName(contact.getFirstName()).withLastName(contact.getLastName()).withAddress(contact.getAddress())
+    .withEmail(contact.getEmail()).withEmail2(contact.getEmail2()).withEmail3(contact.getEmail3()))));
 
 
   }
