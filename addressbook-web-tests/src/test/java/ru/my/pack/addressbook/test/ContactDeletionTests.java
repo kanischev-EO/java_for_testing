@@ -4,6 +4,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.my.pack.addressbook.model.ContactData;
 import ru.my.pack.addressbook.model.Contacts;
+import ru.my.pack.addressbook.model.Groups;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
@@ -12,6 +13,7 @@ import static org.hamcrest.MatcherAssert.*;
 public class ContactDeletionTests extends TestBase {
   @BeforeMethod
   public void ensurePreconditions(){
+    Groups before = app.db().groups();
     app.contact().contactPage();
     if (app.db().contacts().size() == 0) {
       app.contact().gotoAdd();
@@ -19,8 +21,8 @@ public class ContactDeletionTests extends TestBase {
                       .withFirstName("Anton")
                       .withLastName("Tuzhilov")
                       .withAddress("Москва улица Новая")
-                      .withEmail("anton@mail.ru")
-                      .withGroup("new_test2"),
+                      .withEmail("anton@mail.ru"),
+//
               true);
     }
   }

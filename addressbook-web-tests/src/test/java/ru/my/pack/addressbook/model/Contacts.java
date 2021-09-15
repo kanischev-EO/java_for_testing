@@ -22,6 +22,16 @@ public class Contacts extends ForwardingSet<ContactData> {
 
   }
 
+  public static ContactData getContactWithGroup(Contacts contacts) {
+    ContactData contactWithGroup = null;
+    for (ContactData con : contacts ){
+      if(con.getGroups().size() > 0){
+        contactWithGroup = con;
+      }
+    }
+    return contactWithGroup;
+  }
+
   @Override
   protected Set delegate() {
     return delegate;
@@ -39,4 +49,26 @@ public class Contacts extends ForwardingSet<ContactData> {
   }
 
 
+  public ContactData getInfoOnContact(ContactData contact) {
+    ContactData desiredСontact = null;
+    for(ContactData contactData : delegate){
+     if(contactData.getId() == contact.getId()){
+     desiredСontact = contactData;
+     break;
+     }
+    }
+    return desiredСontact;
+  }
+
+  public ContactData nextElement(ContactData existingContact) {
+    ContactData contact = null;
+    for (ContactData cn : delegate){
+      if(!cn.equals(existingContact)){
+        contact = cn;
+        break;
+      }
+    }
+    return contact;
+
+  }
 }

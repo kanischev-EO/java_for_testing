@@ -26,7 +26,6 @@ public class ApplicationManager {
 
   public ApplicationManager(String browser)  {
     this.browser = browser;
-
     properties = new Properties();
 
   }
@@ -42,7 +41,6 @@ public class ApplicationManager {
       wd = new InternetExplorerDriver();
     } else if (browser.equals(BrowserType.FIREFOX)) {
       wd = new FirefoxDriver();
-//      System.setProperty("webdriver.gecko.driver", "/Users/ruanaoq/Documents/GitHub/java_for_testing/addressbook-web-tests/geckodriver");
     }
 
     wd.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);

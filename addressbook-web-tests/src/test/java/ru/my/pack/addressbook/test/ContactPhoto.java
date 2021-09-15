@@ -2,23 +2,28 @@ package ru.my.pack.addressbook.test;
 
 import org.testng.annotations.Test;
 import ru.my.pack.addressbook.model.ContactData;
+import ru.my.pack.addressbook.model.Groups;
 
 import java.io.File;
 
 
 
 public class ContactPhoto extends TestBase{
+  //Если нет ни одной группы, то создать группу
+
+
   @Test
   public void testContactCreation(){
-    app.contact().contactPage();
-    app.contact().gotoAdd();
+    Groups groups = app.db().groups();
     File photo = new File("src/test/resources/cat.jpeg");
-    ContactData contact = new ContactData()
+    ContactData newContact = new ContactData()
             .withFirstName("Юлий31")
             .withLastName("Цезарь31")
             .withPhoto(photo)
-            .withGroup("new_test2");
-    app.contact().create(contact,
+            .inGroup(groups.iterator().next());
+    app.contact().contactPage();
+    app.contact().gotoAdd();
+    app.contact().create(newContact,
             true);
 
 

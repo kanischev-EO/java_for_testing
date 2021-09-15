@@ -22,7 +22,6 @@ public class ContactModificationTests extends TestBase {
               .withFirstName("Anton")
               .withLastName("Tuzhilov")
               .withAddress("Москва, улица новая д 54 корпус б строение 1/3")
-              .withGroup("test1")
               .withHomePhone("111 111")
               .withMobilePhone("+7 (111)")
               .withWorkPhone("22-22-22")
@@ -39,8 +38,8 @@ public class ContactModificationTests extends TestBase {
     ContactData modifyContact = before.iterator().next();
     ContactData contact = new ContactData()
             .withId(modifyContact.getId())
-            .withFirstName("Новыое имя")
-            .withLastName("Новая фамилия")
+            .withFirstName("Новыое имя1")
+            .withLastName("Новая фамилия1")
             .withAddress(modifyContact.getAddress())
             .withHomePhone(modifyContact.getHomePhone())
             .withMobilePhone(modifyContact.getMobilePhone())

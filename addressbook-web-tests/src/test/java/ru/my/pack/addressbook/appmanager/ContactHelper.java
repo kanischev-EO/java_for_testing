@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.my.pack.addressbook.model.ContactData;
 import ru.my.pack.addressbook.model.Contacts;
+import ru.my.pack.addressbook.model.GroupData;
 
 
 import java.util.List;
@@ -30,7 +31,6 @@ public class ContactHelper extends HelperBase {
     type(By.name("lastname"), contactData.getLastName());
     attach(By.name("photo"), contactData.getPhoto());
     type(By.name("address"), contactData.getAddress());
-    type(By.name("mobile"), contactData.getPhoneNumber());
     type(By.name("email"), contactData.getEmail());
     type(By.name("email2"), contactData.getEmail2());
     type(By.name("email3"), contactData.getEmail3());
@@ -40,7 +40,10 @@ public class ContactHelper extends HelperBase {
 
 
     if (creation) {
-      new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+      if(contactData.getGroups().size() > 0){
+        Assert.assertTrue(contactData.getGroups().size() == 1);
+        new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroups().iterator().next().getName());
+      }
     } else {
       Assert.assertFalse(isElementPresent(By.name("new_group")));
     }
@@ -165,5 +168,30 @@ public class ContactHelper extends HelperBase {
 
     }
     return new Contacts(contactsCache);
+  }
+
+  public void addGroup( ContactData contact, GroupData group) {
+    selectContactById(contact.getId());
+    selectGroupByname(group.getName());
+    click(By.name("add"));
+  }
+
+  public void selectGroupByname(String nameGroup) {
+    new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(nameGroup);
+  }
+
+  public void deleteGroup(ContactData contact, GroupData groupContact) {
+    groupFiltration(groupContact.getName());
+    selectContactById(contact.getId());
+    removeGroup();
+
+  }
+
+  public void removeGroup() {
+    click(By.name("remove"));
+  }
+
+  public void groupFiltration(String nameGroup) {
+    new Select(wd.findElement(By.name("group"))).selectByVisibleText(nameGroup);
   }
 }

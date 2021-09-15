@@ -1,7 +1,6 @@
 package ru.my.pack.addressbook.test;
 
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.MatcherAssert;
+
 import org.openqa.selenium.remote.BrowserType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,10 +15,9 @@ import ru.my.pack.addressbook.model.Groups;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 

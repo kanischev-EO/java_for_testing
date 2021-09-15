@@ -69,13 +69,12 @@ public class ContactDataGenerators {
     List<ContactData> contacts = new ArrayList<>();
     for (int i = 0; i < count; i++) {
       contacts.add(new ContactData()
-              .withLastName(String.format("test_last_name %s", i))
-              .withFirstName(String.format("test_first_name %s", i))
-              .withAddress(String.format("test_address %s", i))
+              .withLastName(String.format("test_last_name%s", i))
+              .withFirstName(String.format("test_first_name%s", i))
+              .withAddress(String.format("test_address%s", i))
               .withEmail(String.format("test@email%s.ru", i))
               .withEmail2(String.format("test@2email%s.ru", i))
               .withEmail3(String.format("test@3email%s.ru", i))
-              .withGroup("test1")
               .withWorkPhone(String.format("7(985)-123-%s", i))
               .withMobilePhone(String.format("7(985)-123-%s", i))
               .withHomePhone(String.format("7(985)-123-%s", i)));
@@ -94,7 +93,6 @@ public class ContactDataGenerators {
                 contactData.getEmail(),
                 contactData.getEmail2(),
                 contactData.getEmail3(),
-                contactData.getGroup(),
                 contactData.getWorkPhone(),
                 contactData.getHomePhone(),
                 contactData.getMobilePhone()));
