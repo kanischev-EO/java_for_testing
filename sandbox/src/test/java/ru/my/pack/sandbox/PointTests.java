@@ -3,6 +3,8 @@ package ru.my.pack.sandbox;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.Collections;
+
 public class PointTests {
   @Test
   public void testDistance(){

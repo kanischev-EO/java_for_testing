@@ -16,15 +16,18 @@ public class ContactDeleteGroupTests extends TestBase {
         ContactAddGroupTests  helper = new ContactAddGroupTests();
         helper.ensurePreconditions();
         Contacts allContacts = app.db().contacts();
+        boolean isAllContacts = allContacts.stream().allMatch(contactData -> contactData.getGroups().size() > 0);
+        // private метод для логики создания контакта
         for (ContactData contact : allContacts){
             if(contact.getGroups().size() > 0){
                 return;
             }
         }
-        helper.ContactAddGroupTest();
+        helper.contactAddGroupTest();
     }
     @Test
     public void contactDeleteGroupTest(){
+        //сделать также как и в добавлении группы
         app.contact().contactPage();
         ContactData before = Contacts.getContactWithGroup(app.db().contacts());
         Groups groupsBefore = before.getGroups();

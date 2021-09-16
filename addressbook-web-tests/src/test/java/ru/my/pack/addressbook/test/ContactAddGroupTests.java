@@ -29,22 +29,32 @@ public class ContactAddGroupTests extends TestBase {
         }
     }
 
+
     @Test
-    public void ContactAddGroupTest() {
+    public void contactAddGroupTest() {
         app.contact().contactPage();
-        ContactData before = app.db().contacts().iterator().next();
-        Groups groupsBefore = before.getGroups();
+        //1)Подготовка данных
+        ContactData contactBeforeOperation = app.db().contacts().iterator().next();
+        Groups groupsBeforeOperation = contactBeforeOperation.getGroups();
         Groups allGroups = app.db().groups();
         GroupData groupToAdd =  allGroups.iterator().next();
-        if(before.getGroups().contains(groupToAdd)){
+        if(contactBeforeOperation.getGroups().contains(groupToAdd)){
             groupToAdd = allGroups.nextElement(groupToAdd) ;
         }
-        app.contact().addGroup( before, groupToAdd);
-        ContactData after = app.db().contacts().getInfoOnContact(before);
-        Groups groupsAfter = after.getGroups();
-        assertThat( after.getGroups().size(), equalTo(before.getGroups().size()+ 1));
-        assertThat( groupsAfter, equalTo(groupsBefore.withAdded(groupToAdd)));
+        //2)Операция
+        app.contact().addGroup(contactBeforeOperation, groupToAdd);
+        //3)Данные после операции
+        ContactData contactAfterOperation = app.db().contacts().getInfoOnContact(contactBeforeOperation);
+        Groups groupsAfterOperation = contactAfterOperation.getGroups();
+        //4)
+        assertThat( groupsAfterOperation.size(), equalTo(groupsBeforeOperation.size()+ 1));
+        assertThat( groupsAfterOperation, equalTo(groupsBeforeOperation.withAdded(groupToAdd)));
 
 
     }
+
+    //1)Cоздать приватный метод createGroupIfNotExist
+    //2Cоздать приватный метод createContactIfNotExist
+    //3)Вынести из 1 пунтка метод для подготовки данныъ prepareGroupsBeforeOperation return GroupsBeforeOperation
+    //4)3 пункт возможно вынести в метод getGroupAfterOperation
 }
