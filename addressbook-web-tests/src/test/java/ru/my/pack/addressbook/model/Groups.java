@@ -38,15 +38,15 @@ public class Groups extends ForwardingSet<GroupData> {
         return groups;
     }
 
-    public GroupData nextElement(GroupData existingGroup) {
-        GroupData groupData = null;
-        for (GroupData gr : delegate) {
-            if (!gr.equals(existingGroup)) {
-                groupData = gr;
-                break;
-            }
-        }
-        return groupData;
-
-    }
+//    public GroupData nextElement(GroupData existingGroup) {
+//        GroupData groupData = null;
+//        for (GroupData gr : delegate) {
+//            if (!gr.equals(existingGroup)) {
+//                groupData = gr;
+//                break;
+//            }
+//        }
+//        return groupData;
+//
+//    }
 }

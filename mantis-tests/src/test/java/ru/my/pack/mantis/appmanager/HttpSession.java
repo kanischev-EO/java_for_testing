@@ -1,4 +1,5 @@
 package ru.my.pack.mantis.appmanager;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -23,7 +24,8 @@ public class HttpSession {
         this.app = app;
         httpClient = HttpClients.custom().setRedirectStrategy(new LaxRedirectStrategy()).build();
     }
-    public boolean login(String username, String password) throws IOException{
+
+    public boolean login(String username, String password) throws IOException {
         HttpPost post = new HttpPost(app.getProperty("web.baseUrl") + "/login.php");
         List<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair("username", username));
@@ -33,20 +35,18 @@ public class HttpSession {
         post.setEntity(new UrlEncodedFormEntity(params));
         CloseableHttpResponse response = httpClient.execute(post);
         String body = geTextFrom(response);
-        return body.contains(String.format("<span class=\"label hidden-xs label-default arrowed\">%s</span>", username));
-//        <span class="label hidden-xs label-default arrowed">администратор</span>
-
+        return body.contains(String.format("<a href=\"/mantisbt-2.25.2/account_page.php\">%s</a>", username));
     }
 
     private String geTextFrom(CloseableHttpResponse response) throws IOException {
         try {
             return EntityUtils.toString(response.getEntity());
-        }finally {
+        } finally {
             response.close();
         }
-
     }
-    public boolean isLoggedInAs(String username) throws IOException{
+
+    public boolean isLoggedInAs(String username) throws IOException {
         HttpGet get = new HttpGet(app.getProperty("web.baseUrl") + "/login.php");
         CloseableHttpResponse response = httpClient.execute(get);
         String body = geTextFrom(response);
