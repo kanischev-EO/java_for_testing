@@ -14,31 +14,36 @@ import java.util.List;
 import static org.testng.Assert.assertTrue;
 
 public class RegistrationTest extends TestBase {
-    @BeforeMethod
-    public void startMailServer(){
+    //    @BeforeMethod
+    public void startMailServer() {
         app.mail().start();
     }
+
     @Test
     public void testRegistration() throws IOException, MessagingException {
         long now = System.currentTimeMillis();
         String user = String.format("user%s", now);
         String password = "password";
-        String email = String.format("user%s@localhost.localadmin", now);
+        String email = String.format("user%s@localhost.localdomain", now);
         app.registration().start(user, email);
-        List<MailMessage> mailMessages = app.mail().waitForMail(2, 10000);
+        app.james().createUser(user, password);
+//        List<MailMessage> mailMessages = app.mail().waitForMail(2, 10000);
+        List<MailMessage> mailMessages = app.james().waitForMail(user, password, 60000);
         String confimationLink = findConfimationLink(mailMessages, email);
         app.registration().finish(confimationLink, password);
         assertTrue(app.newSession().login(user, password));
+
+
     }
 
     private String findConfimationLink(List<MailMessage> mailMessages, String email) {
         MailMessage mailMessage = mailMessages.stream().filter(m -> m.to.equals(email)).findFirst().get();
-        VerbalExpression regex =VerbalExpression.regex().find("http://").nonSpace().oneOrMore().build();
+        VerbalExpression regex = VerbalExpression.regex().find("http://").nonSpace().oneOrMore().build();
         return regex.getText(mailMessage.text);
     }
 
-    @AfterMethod(alwaysRun = true)
-    public void stopMailServer(){
+    //    @AfterMethod(alwaysRun = true)
+    public void stopMailServer() {
         app.mail().stop();
     }
 }

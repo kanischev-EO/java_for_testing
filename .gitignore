@@ -16,3 +16,6 @@ gradle-app.setting
 sandbox/.DS_Store
 *.log
 *.exe
+*.html
+*.hprof
+addressbook-web-tests/build/tmp/test/jar_extract_10977161862108289027_tmp

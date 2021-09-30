@@ -3,7 +3,12 @@ package ru.my.pack.addressbook.appmanager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class SessionHelper extends HelperBase {
+  List<Integer> integers = new ArrayList<>();
 
   public SessionHelper(WebDriver wd) {
 
