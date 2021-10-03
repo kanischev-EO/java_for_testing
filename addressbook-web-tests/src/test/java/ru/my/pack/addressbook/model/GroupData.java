@@ -6,11 +6,9 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-flatMap функциональный интерфейс
 
 @XStreamAlias("group")
 @Entity
@@ -54,7 +52,7 @@ public class GroupData {
     this.footer = footer;
     return this;
   }
-n
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
