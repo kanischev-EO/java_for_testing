@@ -7,6 +7,7 @@
             <class name="ru.my.pack.mantis.tests.RegistrationTest"/>
             <class name="ru.my.pack.mantis.tests.LogginTests"/>
             <class name="ru.my.pack.mantis.tests.ChangePasswordTests"/>
+            <class name="ru.my.pack.mantis.tests.SoapTests"/>
         </classes>
     </test>
 </suite>
