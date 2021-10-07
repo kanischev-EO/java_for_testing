@@ -4,8 +4,12 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.my.pack.addressbook.model.ContactData;
 
+import ru.my.pack.addressbook.model.Contacts;
 import ru.my.pack.addressbook.model.GroupData;
 import ru.my.pack.addressbook.model.Groups;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
@@ -23,54 +27,52 @@ public class ContactAddGroupTests extends TestBase {
 
 
     @Test
-     void contactAddGroupTest() {
-        ContactData contact = app.db().contacts().iterator().next();
-        GroupData groupToAdd = prepareGroupsBeforeOperation(contact);
+    void contactAddGroupTest() {
+//        ContactData contact = app.db().contacts().iterator().next();
+//        GroupData groupToAdd = prepareGroupsBeforeOperation(contact);
+        Map<ContactData, GroupData> groupToAddAndContact = getContactWithoutGroupAndGroupForAdd(app.db().contacts(), app.db().groups());
+        GroupData groupToAdd = null;
+        ContactData contact = null;
+        for (Map.Entry<ContactData, GroupData> map : groupToAddAndContact.entrySet()) {
+            contact = map.getKey();
+            groupToAdd = map.getValue();
+        }
         app.contact().addGroup(contact, groupToAdd);
-        Groups groupsAfterOperation = getGroupsBeforeOperation(contact);
+        Groups groupsAfterOperation = getGroupsAfterOperation(contact);
         assertThat(groupsAfterOperation.size(), equalTo(contact.getGroups().size() + 1));
         int maxIdFromGroupsAfterOperation = groupsAfterOperation.stream()
                 .mapToInt(g -> g.getId())
                 .max()
                 .getAsInt();
         assertThat(groupsAfterOperation, equalTo(contact.getGroups()
-                                .withAdded(groupToAdd
-                                        .withId(maxIdFromGroupsAfterOperation))));
-
-
+                .withAdded(groupToAdd
+                        .withId(maxIdFromGroupsAfterOperation))));
     }
 
-    private Groups getGroupsBeforeOperation(ContactData contactBeforeOperation) {
+    private Groups getGroupsAfterOperation(ContactData contactBeforeOperation) {
         ContactData contactAfterOperation = app.db().contacts().getInfoOnContact(contactBeforeOperation);
         return contactAfterOperation.getGroups();
     }
 
-    private GroupData prepareGroupsBeforeOperation(ContactData contact) {
-        Groups contactGroups = contact.getGroups();
-        Groups allGroups = app.db().groups();
-        return getGroupDataToAdd(allGroups, contactGroups);
-    }
 
-    private GroupData getGroupDataToAdd(Groups allGroups, Groups contactGroups) {
-        GroupData groupToAdd;
-        for (GroupData groupContact : contactGroups) {
-            if (allGroups.contains(groupContact)) {
-                allGroups.remove(groupContact);
+    public Map<ContactData, GroupData> getContactWithoutGroupAndGroupForAdd(Contacts contacts, Groups groups) {
+        Map<ContactData, GroupData> cn = new HashMap<>();
+        for (ContactData contact : contacts) {
+            Groups groupContact = contact.getGroups();
+            for (GroupData group : groups) {
+                if (!groupContact.contains(group)) {
+                    cn.put(contact, group);
+                    return cn;
+                }
             }
         }
-        if (allGroups.isEmpty()) {
+        if (cn.isEmpty()) {
             app.group().groupPage();
-            groupToAdd = new GroupData().withName("Auto_test").withHeader("Auto_test").withFooter("Auto_test");
+            GroupData groupToAdd = new GroupData().withName("Auto").withHeader("Auto").withFooter("Auto");
             app.group().create(groupToAdd);
-        } else {
-            groupToAdd = allGroups.iterator().next();
+            ContactData contact = contacts.iterator().next();
+            cn.put(contact, groupToAdd);
         }
-        return groupToAdd;
+        return cn;
     }
 }
-
-//1+)Cоздать приватный метод createGroupIfNotExist
-//2+)Cоздать приватный метод createContactIfNotExist
-//3)Вынести из 1 пунтка метод для подготовки данныъ prepareGroupsBeforeOperation return GroupsBeforeOperation
-//4)3 пункт возможно вынести в метод getGroupAfterOperation
-
