@@ -56,23 +56,23 @@ public class ContactAddGroupTests extends TestBase {
 
 
     public Map<ContactData, GroupData> getContactWithoutGroupAndGroupForAdd(Contacts contacts, Groups groups) {
-        Map<ContactData, GroupData> cn = new HashMap<>();
+        Map<ContactData, GroupData> contactDataAndGroupData = new HashMap<>();
         for (ContactData contact : contacts) {
             Groups groupContact = contact.getGroups();
             for (GroupData group : groups) {
                 if (!groupContact.contains(group)) {
-                    cn.put(contact, group);
-                    return cn;
+                    contactDataAndGroupData.put(contact, group);
+                    return contactDataAndGroupData;
                 }
             }
         }
-        if (cn.isEmpty()) {
+        if (contactDataAndGroupData.isEmpty()) {
             app.group().groupPage();
             GroupData groupToAdd = new GroupData().withName("Auto").withHeader("Auto").withFooter("Auto");
             app.group().create(groupToAdd);
             ContactData contact = contacts.iterator().next();
-            cn.put(contact, groupToAdd);
+            contactDataAndGroupData.put(contact, groupToAdd);
         }
-        return cn;
+        return contactDataAndGroupData;
     }
 }
