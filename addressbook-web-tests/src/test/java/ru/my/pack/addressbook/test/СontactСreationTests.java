@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
 
-public class СontactСreationTest extends TestBase {
+class СontactСreationTests extends TestBase {
 
   @DataProvider
   public Iterator<Object[]> validContactFromJson() throws IOException{
